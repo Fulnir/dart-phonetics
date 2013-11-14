@@ -1,9 +1,9 @@
-# Dart Soundex
+ #Dart Soundex
 ---
 
-Copyright (C) 2013 Edwin BŸhler. All Rights Reserved.
+Copyright (C) 2013 Edwin BÃ¼hler. All Rights Reserved.
 
-Author: Edwin BŸhler <edbuehler@icloud.com>
+Author: Edwin BÃ¼hler <edbuehler@icloud.com>
 
 
 Calculates the phonetic code for the given string.
@@ -27,10 +27,10 @@ For the English language.
 [en.wikipedia.org/wiki/Soundex](http://en.wikipedia.org/wiki/Soundex)
 
 
-## Kšlner Phonetik
+## KÃ¶lner Phonetik
 
 For the German language.
 
-[de.wikipedia.org/wiki/Kšlner_Phonetik](http://de.wikipedia.org/wiki/Kšlner_Phonetik)
+[de.wikipedia.org/wiki/KÃ¶lner_Phonetik](http://de.wikipedia.org/wiki/KÃ¶lner_Phonetik)
 
 
