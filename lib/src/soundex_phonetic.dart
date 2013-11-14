@@ -1,3 +1,9 @@
+//
+// Copyright (C) 2013 Edwin Bühler. All Rights Reserved.
+//
+// @author Edwin Bühler
+//
+//
 part of dart_phonetic;
 
 const _translationDict = const  {

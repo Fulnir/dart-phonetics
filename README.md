@@ -3,7 +3,7 @@
 
 Copyright (C) 2013 Edwin Bühler. All Rights Reserved.
 
-Author: Edwin Bühler <edbuehler@icloud.com>
+Author: Edwin Bühler <fulnir@gmail.com>
 
 
 Calculates the phonetic code for the given string.
