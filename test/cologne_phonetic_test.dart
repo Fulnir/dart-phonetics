@@ -4,8 +4,8 @@
 // @author Edwin Bühler
 //
 
-library koelnerphonetik_test.dart;
-import '../lib/dart_phonetic.dart';
+library colognephonetic_test.dart;
+import '../lib/phonetics.dart';
 import 'package:unittest/unittest.dart';
 import 'package:logging/logging.dart';
 

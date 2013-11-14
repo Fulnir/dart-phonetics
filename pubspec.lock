@@ -25,10 +25,6 @@ packages:
     description: path
     source: hosted
     version: "0.9.0"
-  soundex:
-    description: soundex
-    source: hosted
-    version: "0.5.5"
   stack_trace:
     description: stack_trace
     source: hosted

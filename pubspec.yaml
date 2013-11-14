@@ -1,4 +1,4 @@
-name: dart_phonetic
+name: phonetics
 version: 1.0.0
 author: Edwin Bühler <edbuehler@gmail.com>
 description: Soundex and Kölner Phonetik
@@ -8,5 +8,4 @@ dependencies:
   intl: any
   junitconfiguration: any
   logging: any
-  soundex: any
   unittest: any

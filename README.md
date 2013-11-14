@@ -1,4 +1,4 @@
- #Dart Soundex
+Dart Phonetics
 ---
 
 Copyright (C) 2013 Edwin Bühler. All Rights Reserved.

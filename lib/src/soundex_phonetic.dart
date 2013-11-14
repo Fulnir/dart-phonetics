@@ -4,7 +4,7 @@
 // @author Edwin Bühler
 //
 //
-part of dart_phonetic;
+part of phonetics;
 
 const _translationDict = const  {
   'A' : '0',

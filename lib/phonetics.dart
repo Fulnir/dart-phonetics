@@ -14,7 +14,7 @@
  */
 
 
-library dart_phonetic;
+library phonetics;
 
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
