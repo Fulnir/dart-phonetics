@@ -1,6 +1,6 @@
 name: phonetics
 version: 1.0.0
-author: Edwin Bühler <edbuehler@gmail.com>
+author: Edwin Bühler <fulnir@gmail.com>
 description: Soundex and Kölner Phonetik
 homepage: https://github.com/Fulnir/dart-phonetics
 environment:
