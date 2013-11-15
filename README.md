@@ -9,7 +9,7 @@ Author: Edwin Bühler <fulnir@gmail.com>
 Calculates the phonetic code for the given string.
 
 ```dart
-import 'package:dart_phonetic/dart_phonetic.dart';
+import 'package:phonetics/phonetics.dart';
 
 main() {
   print(phonetic('Dart', 'en'));     // Returns D630
