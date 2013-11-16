@@ -105,8 +105,6 @@ group('English - Metaphone Knight:', () {
   var words = ["Hynda", "Nada", "Nadia", "Nady", "Nat", "Nata", "Natty", "Neda", "Nedda", "Nedi",
             "Netta", "Netti", "Nettie", "Netty", "Nita", "Nydia"];
   words.forEach((each) {
-    print('Knight ${asDoubleMetaphonePhonetic('Knight')}   $each ${asDoubleMetaphonePhonetic(each)} ');
-
     test('Knight with $each',
         () => expect(doubleMetaphoneFuzzyCompare('Knight', each), isTrue));
   });
