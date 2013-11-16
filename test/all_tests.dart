@@ -8,6 +8,8 @@ library all_tests;
 
 import 'package:logging/logging.dart';
 import 'soundex_phonetic_test.dart' as soundex;
+import 'doublemetaphone_phonetic_test.dart' as doublemetaphone;
+import 'doublemetaphone_apachewords_tests.dart' as doublemetaphoneapache;
 import 'cologne_phonetic_test.dart' as cologne;
 
 
@@ -26,8 +28,12 @@ main(){
   }
   if (useJUnit) {
     soundex.useJUnit = true;
+    doublemetaphone.useJUnit = true;
+    doublemetaphoneapache.useJUnit = true;
     cologne.useJUnit = true;
   }
   soundex.main();
+  doublemetaphone.main();
+  doublemetaphoneapache.main();
   cologne.main();
 }

@@ -26,6 +26,10 @@ main() {
     tearDown((){
     });
     test('German Dart = 272', () => expect(phonetic('Dart', 'de'), equals('272')));
+    test('English Dart = TRT', () => expect(phonetic('Dart', 'en'), equals('TRT')));
+    test('English Dart mode soundex = D630', () => expect(phonetic('Dart', 'en', mode:'soundex'), equals('D630')));
+    test('English Dart mode doublemetaphone = TRT', () => expect(phonetic('Dart', 'en', mode:'doublemetaphone'), equals('TRT')));
+    test('Undefined Dart = TRT', () => expect(phonetic('Dart', ''), equals('TRT')));
   });
 
   logTest.info('English - Soundex');

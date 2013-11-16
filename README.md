@@ -12,9 +12,11 @@ Calculates the phonetic code for the given string.
 import 'package:phonetics/phonetics.dart';
 
 main() {
-  print(phonetic('Dart', 'en'));     // Returns D630
-  print(asColognePhonetic('Dart'));  // Returns 272
-  print(asSoundexPhonetic('Dart'));  // Returns D630
+  print(phonetic('Dart', 'en'));            // Returns D630
+  print(asColognePhonetic('Dart'));         // Returns 272
+  print(asSoundexPhonetic('Dart'));         // Returns D630
+  print(asDoubleMetaphonePhonetic('Dart')); // Returns TRT
+  print(doubleMetaphoneFuzzyCompare('John', 'Jean'); // Returns true
 }
 ```
 
@@ -22,7 +24,11 @@ main() {
 
 For the English language.
 
-*Will be replaced with metaphone*
+Metaphone
+
+[en.wikipedia.org/wiki/Metaphone](http://en.wikipedia.org/wiki/Metaphone)
+
+Soundex
 
 [en.wikipedia.org/wiki/Soundex](http://en.wikipedia.org/wiki/Soundex)
 
