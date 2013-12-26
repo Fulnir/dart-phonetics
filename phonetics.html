@@ -1,0 +1,1364 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>phonetics Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        </head>
+        <body data-library="phonetics">
+        <div class="page">
+        <div class="header">
+          <a href="index.html"><div class="logo"></div></a>
+          <a href="index.html">Dart Documentation</a>
+         &rsaquo; <a href="phonetics.html">phonetics</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+<h2><strong>phonetics</strong> library</h2>
+<div class="doc"><p>Dart Phonetics</p>
+<p>@author Edwin Bühler</p></div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="isVowel">
+<button class="show-code">Code</button>
+final         <strong>isVowel</strong> <a class="anchor-link"
+            href="#isVowel"
+            title="Permalink to isVowel">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final isVowel = (String aString, int pos) =&gt; vowels.contains(aString.substring(pos, (pos + 1)))
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="log">
+<button class="show-code">Code</button>
+final <a href="logging/Logger.html">Logger</a>         <strong>log</strong> <a class="anchor-link"
+            href="#log"
+            title="Permalink to log">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final Logger log =  new Logger('SoundexLogger')..level = Level.FINER
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="logTest">
+<button class="show-code">Code</button>
+final <a href="logging/Logger.html">Logger</a>         <strong>logTest</strong> <a class="anchor-link"
+            href="#logTest"
+            title="Permalink to logTest">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final Logger logTest =  new Logger('SoundexLogger.Tests')..level = Level.ALL
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="Slavo_Germanic">
+<button class="show-code">Code</button>
+final         <strong>Slavo_Germanic</strong> <a class="anchor-link"
+            href="#Slavo_Germanic"
+            title="Permalink to Slavo_Germanic">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final Slavo_Germanic = (String aString) {
+ return (aString.contains('WK')) || (aString.indexOf('CZ', 0) &gt;= 0) || (aString.indexOf('WITZ', 0) &gt;= 0);
+}
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="string_at">
+<button class="show-code">Code</button>
+final         <strong>string_at</strong> <a class="anchor-link"
+            href="#string_at"
+            title="Permalink to string_at">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+final  string_at = (string, start, length, list) {
+   if ((start &lt; 0) || (start &gt;= string.length)) {
+     return false;
+   }
+   //if (string.length &gt;= (start + length)) {
+     for (var i=0, len = list.length; i &lt; len; i++) {
+       if (list[i] == string.substring(start, (start + length))) {
+         return true;
+       }
+     }
+   //}
+   return false;
+ }
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="vowels">
+<button class="show-code">Code</button>
+const List&lt;String&gt;         <strong>vowels</strong> <a class="anchor-link"
+            href="#vowels"
+            title="Permalink to vowels">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+const List&lt;String&gt; vowels = const ['A', 'E', 'I', 'O', 'U']
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Functions</h3>
+<div class="method"><h4 id="asDoubleMetaphonePhonetic">
+<button class="show-code">Code</button>
+String <strong>asDoubleMetaphonePhonetic</strong>(String aString) <a class="anchor-link" href="#asDoubleMetaphonePhonetic"
+              title="Permalink to asDoubleMetaphonePhonetic">#</a></h4>
+<div class="doc">
+<p>Returns the "Double Metaphone" elements primary and secondary as String
+separated with "-"
+If both primary and secondary are equal, only the primary returns.</p>
+<p>asMetaphonePhonetic('Dart'); // Returns 'TRT'
+asMetaphonePhonetic('This is the Basic thing'); // Returns '0SS0-TSST'</p>
+<pre class="source">
+String asDoubleMetaphonePhonetic(String aString) {
+ asDoubleMetaphonePhoneticList(aString);
+ var primary = asDoubleMetaphonePhoneticList(aString)[0];
+ var secondary = asDoubleMetaphonePhoneticList(aString)[1];
+ if ((secondary.isEmpty) || (primary == secondary)) {
+   return asDoubleMetaphonePhoneticList(aString)[0];
+ } else {
+   return primary +  '-' + secondary ;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="doubleMetaphoneMinimalCompare">
+<button class="show-code">Code</button>
+bool <strong>doubleMetaphoneMinimalCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneMinimalCompare"
+              title="Permalink to doubleMetaphoneMinimalCompare">#</a></h4>
+<div class="doc">
+<p>Minimal Match
+Secondary Key (1) = Secondary Key (2)</p>
+<pre class="source">
+bool doubleMetaphoneMinimalCompare(String a, String b) {
+ var mA = asDoubleMetaphonePhoneticList(a);
+ var mB = asDoubleMetaphonePhoneticList(b);
+ if (mA[0] == mB[0]) {
+   return true;
+ } else if (mA[0] == mB[1]) {
+   return true;
+ } else if (mA[1] == mB[1]) {
+   return true;
+ } else if (mA[1] == mB[0]) {
+   return true;
+ }
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="doubleMetaphoneNormalCompare">
+<button class="show-code">Code</button>
+bool <strong>doubleMetaphoneNormalCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneNormalCompare"
+              title="Permalink to doubleMetaphoneNormalCompare">#</a></h4>
+<div class="doc">
+<p>Normal Match
+Secondary Key (1) = Primary Key (2)
+Primary Key (1) = Secondary Key (2)</p>
+<pre class="source">
+bool doubleMetaphoneNormalCompare(String a, String b) {
+ var mA = asDoubleMetaphonePhoneticList(a);
+ var mB = asDoubleMetaphonePhoneticList(b);
+ if (mA[0] == mB[0]) {
+   return true;
+ } else if (mA[0] == mB[1]) {
+   return true;
+ } else if (mA[1] == mB[0]) {
+   return true;
+ }
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="doubleMetaphoneStrongCompare">
+<button class="show-code">Code</button>
+bool <strong>doubleMetaphoneStrongCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneStrongCompare"
+              title="Permalink to doubleMetaphoneStrongCompare">#</a></h4>
+<div class="doc">
+<p>Strongest Match
+Primary Key (1) = Primary Key (2)</p>
+<pre class="source">
+bool doubleMetaphoneStrongCompare(String a, String b) {
+ var mA = asDoubleMetaphonePhoneticList(a);
+ var mB = asDoubleMetaphonePhoneticList(b);
+ if (mA[0] == mB[0]) {
+   return true;
+ }
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="doubleMetaphoneFuzzyCompare">
+<button class="show-code">Code</button>
+bool <strong>doubleMetaphoneFuzzyCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneFuzzyCompare"
+              title="Permalink to doubleMetaphoneFuzzyCompare">#</a></h4>
+<div class="doc">
+<p>Returns the first element (primary) from asDoubleMetaphonePhoneticList
+as "Metaphone" String.</p>
+<p>doubleMetaphoneFuzzyCompare('Smith', 'Schmidt'); // Returns true
+doubleMetaphoneFuzzyCompare('Smith', 'Schmitz'); // Returns false</p>
+<pre class="source">
+bool doubleMetaphoneFuzzyCompare(String a, String b) {
+ var mA = asDoubleMetaphonePhoneticList(a);
+ var mB = asDoubleMetaphonePhoneticList(b);
+ if (mA[0] == mB[0]) {
+   return true;
+ } else if (mA[0] == mB[1]) {
+   return true;
+ } else if (mA[1] == mB[1]) {
+   return true;
+ } else if (mA[1] == mB[0]) {
+
+   return true;
+ }
+ return _fuzzyCompare(mA, mB);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="asDoubleMetaphonePhoneticList">
+<button class="show-code">Code</button>
+List&lt;String&gt; <strong>asDoubleMetaphonePhoneticList</strong>(String aString) <a class="anchor-link" href="#asDoubleMetaphonePhoneticList"
+              title="Permalink to asDoubleMetaphonePhoneticList">#</a></h4>
+<div class="doc">
+<p>Calculates the "Double Metaphone" code for the given string.
+It's the phonetic code for the  English language.</p>
+<pre><code>main() {
+  print(asDoubleMetaphonePhonetic('Dart')); // Returns 'TRT'
+}
+</code></pre>
+<p>Returns the "Double Metaphone" elements primary and secondary as List.</p>
+<p>asMetaphonePhonetic('Dart'); // Returns <code>'TRT', 'TRT'</code>
+asMetaphonePhonetic('This is the Basic thing'); // Returns <code>'0SS0', 'TSST'</code></p>
+<pre class="source">
+List&lt;String&gt; asDoubleMetaphonePhoneticList(String aString) {
+ if (aString == null || aString.isEmpty) return ['',''];
+ var startIndex =  0, skipCount = 0,  current =  0;
+ var length   = aString.length;
+ var last     = length - 1;
+ var primary = '', secondary = '';
+ var inputKey =  aString.toUpperCase() + "     ";
+ var addPrimaryTranslation = (String tailString) =&gt; primary = primary + tailString;
+ var addSecondaryTranslation = (String tailString) =&gt; secondary = secondary + tailString;
+
+ if(inputKey.length &gt; 1) {
+   if (['GN', 'KN', 'PN', 'WR', 'PS'].contains(inputKey.substring(0, 2))) {
+     current++;
+   }
+ }
+
+ while ((primary.length &lt; 4) || (secondary.length &lt; 4)) {
+   if (current &gt;= aString.length) {
+     break;
+   }
+   switch (inputKey.substring(current, (current + 1))) {
+     case 'A':
+     case 'E':
+     case 'I':
+     case 'O':
+     case 'U':
+     case 'Y':
+       if (current == 0) {
+         addPrimaryTranslation('A');
+         addSecondaryTranslation('A');
+       }
+       current += 1;
+       break;
+     case 'B':
+       addPrimaryTranslation('P');
+       addSecondaryTranslation('P');
+       if (inputKey.substring(current + 1, current + 2) == 'B')
+         current += 2;
+       else
+         current += 1;
+       break;
+     case 'Ç':
+       addPrimaryTranslation('S');
+       addSecondaryTranslation('S');
+       current += 1;
+       break;
+     case 'C':
+         // various gremanic
+         if ((current &gt; 1)
+             &amp;&amp; !isVowel(inputKey, current - 2)
+             &amp;&amp; string_at(inputKey, current - 1, 3,
+                       ["ACH"])
+             &amp;&amp; ((inputKey.substring(current + 2, current + 3) != 'I')
+                 &amp;&amp; ((inputKey.substring(current + 2, current + 3) != 'E')
+                     || string_at(inputKey, current - 2, 6,
+                               ["BACHER", "MACHER"])))) {
+
+           addPrimaryTranslation('K');
+           addSecondaryTranslation('K');
+           current += 2;
+           break;
+         }
+         //  'caesar'
+         if ((current == 0)
+             &amp;&amp; string_at(inputKey, current, 6,
+                        ["CAESAR"])) {
+           addPrimaryTranslation('S');
+           addSecondaryTranslation('S');
+           current += 2;
+           break;
+         }
+         // 'chianti'
+         if (string_at(inputKey, current, 4,
+                        ["CHIA"])) {
+           addPrimaryTranslation('K');
+           addSecondaryTranslation('K');
+           current += 2;
+           break;
+         }
+
+         if (string_at(inputKey, current, 2,
+                        ["CH"])) {
+
+           // find 'michael'
+           if ((current &gt; 0)
+               &amp;&amp; string_at(inputKey, current, 4,
+                        ["CHAE"])) {
+             addPrimaryTranslation('K');
+             addSecondaryTranslation('X');
+             current += 2;
+             break;
+           }
+
+           // greek roots e.g. 'chemistry', 'chorus'
+           if ((current == 0)
+               &amp;&amp; (string_at(inputKey, current + 1, 5,
+                        ["HARAC", "HARIS"])
+                   || string_at(inputKey, current + 1, 3,
+                             ["HOR", "HYM", "HIA", "HEM"]))
+               &amp;&amp; !string_at(inputKey, 0, 5, ["CHORE"])) {
+             addPrimaryTranslation('K');
+             addSecondaryTranslation('K');
+             current += 2;
+             break;
+           }
+
+           // germanic, greek, or otherwise 'ch' for 'kh' sound
+           if ((string_at(inputKey, 0, 4, ["VAN ", "VON "])
+                || string_at(inputKey, 0, 3, ["SCH"]))
+               // 'architect' but not 'arch', orchestra', 'orchid'
+               || string_at(inputKey, current - 2, 6,
+                        ["ORCHES", "ARCHIT", "ORCHID"])
+               || string_at(inputKey, current + 2, 1,
+                        ["T", "S"])
+               || ((string_at(inputKey, current - 1, 1,
+                        ["A","O","U","E"])
+                    || (current == 0))
+                   // e.g. 'wachtler', 'weschsler', but not 'tichner'
+                   &amp;&amp; string_at(inputKey, current + 2, 1,
+                        ["L","R","N","M","B","H","F","V","W"," "]))) {
+             addPrimaryTranslation('K');
+             addSecondaryTranslation('K');
+           } else {
+             if (current &gt; 0) {
+               if (string_at(inputKey, 0, 2, ["MC"])) {
+                 // e.g. 'McHugh'
+                 addPrimaryTranslation('K');
+                 addSecondaryTranslation('K');
+               } else {
+                 addPrimaryTranslation('X');
+                 addSecondaryTranslation('K');
+               }
+             } else {
+               addPrimaryTranslation('X');
+               addSecondaryTranslation('X');
+             }
+           }
+           current += 2;
+           break;
+         }
+
+         // e.g. 'czerny'
+         if (string_at(inputKey, current, 2, ["CZ"])
+             &amp;&amp; !string_at(inputKey, current -2, 4,
+                        ["WICZ"])) {
+           addPrimaryTranslation('S');
+           addSecondaryTranslation('X');
+           current += 2;
+           break;
+         }
+
+         // e.g. 'focaccia'
+         if (string_at(inputKey, current + 1, 3,
+                    ["CIA"])) {
+           addPrimaryTranslation('X');
+           addSecondaryTranslation('X');
+           current += 3;
+           break;
+         }
+
+         // double 'C', but not McClellan'
+         if (string_at(inputKey, current, 2, ["CC"])
+             &amp;&amp; !((current == 1)
+                  &amp;&amp; (inputKey.substring(0, 1) == 'M'))) {
+           // 'bellocchio' but not 'bacchus'
+           if (string_at(inputKey, current + 2, 1,
+                      ["I","E","H"])
+               &amp;&amp; !string_at(inputKey, current + 2, 2,
+                         ["HU"])) {
+             // 'accident', 'accede', 'succeed'
+             if (((current == 1)
+                  &amp;&amp; (inputKey.substring(current - 1, current) == 'A'))
+                 || string_at(inputKey, current - 1, 5,
+                           ["UCCEE", "UCCES"])) {
+               primary   += "KS";
+               addSecondaryTranslation('KS');
+               // 'bacci', 'bertucci', other italian
+             } else {
+               primary   += "X";
+               addSecondaryTranslation('X');
+             }
+             current += 3;
+             break;
+           } else {
+             // Pierce's rule
+             addPrimaryTranslation("K");
+             addSecondaryTranslation('K');
+             current += 2;
+             break;
+           }
+         }
+
+         if (string_at(inputKey, current, 2,
+                    ["CK","CG","CQ"])) {
+           addPrimaryTranslation("K");
+           addSecondaryTranslation('K');
+           current += 2;
+           break;
+         }
+
+         if (string_at(inputKey, current, 2,
+                    ["CI","CE","CY"])) {
+           // italian vs. english
+           if (string_at(inputKey, current, 3,
+                      ["CIO","CIE","CIA"])) {
+             addPrimaryTranslation("S");
+             addSecondaryTranslation('X');
+           } else {
+             primary   += "S";
+             addSecondaryTranslation('S');
+           }
+           current += 2;
+           break;
+         }
+
+         // else
+         addPrimaryTranslation("K");
+         addSecondaryTranslation('K');
+
+         // name sent in 'mac caffrey', 'mac gregor'
+         if (string_at(inputKey, current + 1, 2,
+                    [" C"," Q"," G"])) {
+           current += 3;
+         } else {
+           if (string_at(inputKey, current + 1, 1,
+                      ["C","K","Q"])
+               &amp;&amp; !string_at(inputKey, current + 1, 2,
+                          ["CE","CI"])) {
+             current += 2;
+           } else {
+             current += 1;
+           }
+         }
+         break;
+
+     case 'D':
+       if (string_at(inputKey, current, 2,
+           ["DG"])) {
+         if (string_at(inputKey, current + 2, 1,
+             ["I","E","Y"])) {
+           // e.g. 'edge'
+           addPrimaryTranslation("J");
+           addSecondaryTranslation('J');
+           current += 3;
+           break;
+         } else {
+           // e.g. 'edgar'
+           addPrimaryTranslation("TK");
+           addSecondaryTranslation("TK");
+           current += 2;
+           break;
+         }
+       }
+
+       if (string_at(inputKey, current, 2,
+           ["DT","DD"])) {
+         addPrimaryTranslation("T");
+         addSecondaryTranslation('T');
+         current += 2;
+         break;
+       }
+
+       // else
+       addPrimaryTranslation("T");
+       addSecondaryTranslation('T');
+       current += 1;
+       break;
+
+     case 'F':
+       if (inputKey.substring(current + 1, current + 2) == 'F')
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("F");
+       addSecondaryTranslation('F');
+       break;
+
+     case 'G':
+       if (inputKey.substring(current + 1, current + 2) == 'H') {
+         if ((current &gt; 0)
+             &amp;&amp; !isVowel(inputKey, current - 1)) {
+           addPrimaryTranslation("K");
+           addSecondaryTranslation('K');
+           current += 2;
+           break;
+         }
+
+         if (current &lt; 3) {
+           // 'ghislane', 'ghiradelli'
+           if (current == 0) {
+             if (inputKey.substring(current + 2, current + 3) == 'I') {
+               primary   += "J";
+               addSecondaryTranslation('J');
+             } else {
+               addPrimaryTranslation("K");
+               addSecondaryTranslation('K');
+             }
+             current += 2;
+             break;
+           }
+         }
+
+         // Parker's rule (with some further refinements) - e.g. 'hugh'
+         if (((current &gt; 1)
+             &amp;&amp; string_at(inputKey, current - 2, 1,
+                 ["B","H","D"]))
+                 // e.g. 'bough'
+                 || ((current &gt; 2)
+                     &amp;&amp;  string_at(inputKey, current - 3, 1,
+                         ["B","H","D"]))
+                         // e.g. 'broughton'
+                         || ((current &gt; 3)
+                             &amp;&amp; string_at(inputKey, current - 4, 1,
+                                 ["B","H"]))) {
+           current += 2;
+           break;
+         } else {
+           // e.g. 'laugh', 'McLaughlin', 'cough', 'gough', 'rough', 'tough'
+           if ((current &gt; 2)
+               &amp;&amp; (inputKey.substring(current - 1, current) == 'U')
+               &amp;&amp; string_at(inputKey, current - 3, 1,
+                   ["C","G","L","R","T"])) {
+             addPrimaryTranslation("F");
+             addSecondaryTranslation('F');
+           } else if ( (current &gt; 0) &amp;&amp; inputKey.substring(current - 1, current) != 'I') {
+             addPrimaryTranslation("K");
+             addSecondaryTranslation('K');
+           }
+           current += 2;
+           break;
+         }
+       }
+
+       if (inputKey.substring(current + 1, current + 2) == 'N') {
+         if ((current == 1) &amp;&amp; isVowel(inputKey, 0)
+             &amp;&amp; !Slavo_Germanic(inputKey)) {
+           primary   += "KN";
+           secondary += "N";
+         } else {
+           // not e.g. 'cagney'
+           if (!string_at(inputKey, current + 2, 2,
+               ["EY"])
+               &amp;&amp; (inputKey.substring(current + 1, current + 2) != "Y")
+               &amp;&amp; !Slavo_Germanic(inputKey)) {
+             addPrimaryTranslation("N");
+             addSecondaryTranslation("KN");
+           } else {
+             addPrimaryTranslation("KN");
+             addSecondaryTranslation("KN");
+           }
+         }
+         current += 2;
+         break;
+       }
+
+       // 'tagliaro'
+       if (string_at(inputKey, current + 1, 2,
+           ["LI"])
+           &amp;&amp; !Slavo_Germanic(inputKey)) {
+         addPrimaryTranslation("KL");
+         addSecondaryTranslation('L');
+         current += 2;
+         break;
+       }
+
+       // -ges-, -gep-, -gel- at beginning
+       if ((current == 0)
+           &amp;&amp; ((inputKey.substring(current + 1, current + 2) == 'Y')
+               || string_at(inputKey, current + 1, 2,
+                   ["ES","EP","EB","EL","EY","IB","IL","IN","IE",
+                    "EI","ER"]))) {
+         addPrimaryTranslation("K");
+         addSecondaryTranslation('J');
+         current += 2;
+         break;
+       }
+
+       // -ger-, -gy-
+       if ((string_at(inputKey, current + 1, 2,
+           ["ER"])
+           || (inputKey.substring(current + 1, current + 2) == 'Y'))
+           &amp;&amp; !string_at(inputKey, 0, 6,
+               ["DANGER","RANGER","MANGER"])
+               &amp;&amp; !string_at(inputKey, current -1, 1,
+                   ["E", "I"])
+                   &amp;&amp; !string_at(inputKey, current -1, 3,
+                       ["RGY","OGY"])) {
+         addPrimaryTranslation("K");
+         addSecondaryTranslation('J');
+         current += 2;
+         break;
+       }
+
+       // italian e.g. 'biaggi'
+       if (string_at(inputKey, current + 1, 1,
+           ["E","I","Y"])
+           || string_at(inputKey, current -1, 4,
+               ["AGGI","OGGI"])) {
+         // obvious germanic
+         if ((string_at(inputKey, 0, 4, ["VAN ", "VON "])
+             || string_at(inputKey, 0, 3, ["SCH"]))
+             || string_at(inputKey, current + 1, 2,
+                 ["ET"])) {
+           addPrimaryTranslation("K");
+           addSecondaryTranslation('K');
+         } else {
+           // always soft if french ending
+           if (string_at(inputKey, current + 1, 4,
+               ["IER "])) {
+             addPrimaryTranslation("J");
+             addSecondaryTranslation('J');
+           } else {
+             addPrimaryTranslation("J");
+             addSecondaryTranslation('K');
+           }
+         }
+         current += 2;
+         break;
+       }
+
+       if (inputKey.substring(current + 1, current + 2) == 'G')
+         current += 2;
+       else
+         current += 1;
+
+       addPrimaryTranslation('K');
+       addSecondaryTranslation('K');
+       break;
+
+     case 'H':
+       // only keep if first &amp; before vowel or btw. 2 vowels
+       if (((current == 0) ||
+           isVowel(inputKey, current - 1))
+           &amp;&amp; isVowel(inputKey, current + 1)) {
+         addPrimaryTranslation('H');
+         addSecondaryTranslation('H');
+         current += 2;
+       } else
+         current += 1;
+       break;
+
+     case 'J':
+       // obvious spanish, 'jose', 'san jacinto'
+       if (string_at(inputKey, current, 4,
+           ["JOSE"])
+           || string_at(inputKey, 0, 4, ["SAN "])) {
+         if (((current == 0)
+             &amp;&amp; (inputKey.substring(current + 4, current + 5) == ' '))
+             || string_at(inputKey, 0, 4, ["SAN "])) {
+           addPrimaryTranslation('H');
+           addSecondaryTranslation('H');
+         } else {
+           addPrimaryTranslation('J');
+           addSecondaryTranslation('H');
+         }
+         current += 1;
+         break;
+       }
+
+       if ((current == 0)
+           &amp;&amp; !string_at(inputKey, current, 4,
+               ["JOSE"])) {
+         addPrimaryTranslation('J');  // Yankelovich/Jankelowicz
+         addSecondaryTranslation('A');
+       } else {
+         // spanish pron. of .e.g. 'bajador'
+         if (isVowel(inputKey, current - 1)
+             &amp;&amp; !Slavo_Germanic(inputKey)
+             &amp;&amp; ((inputKey.substring(current + 1, current + 2) == 'A')
+                 || (inputKey.substring(current + 1, current + 2) == 'O'))) {
+           addPrimaryTranslation('J');
+           addSecondaryTranslation('H');
+         } else {
+           if (current == last) {
+             addPrimaryTranslation('J');
+             addSecondaryTranslation('');
+           } else {
+             if (!string_at(inputKey, current + 1, 1,
+                 ["L","T","K","S","N","M","B","Z"])
+                 &amp;&amp; !string_at(inputKey, current - 1, 1,
+                     ["S","K","L"])) {
+               addPrimaryTranslation('J');
+               addSecondaryTranslation('J');
+             }
+           }
+         }
+       }
+
+       if (inputKey.substring(current + 1, current + 2) == 'J') // it could happen
+         current += 2;
+       else
+         current += 1;
+       break;
+
+     case 'K':
+       if (inputKey.substring(current + 1, current + 2) == 'K')
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation('K');
+       addSecondaryTranslation('K');
+       break;
+
+     case 'L':
+       if (inputKey.substring(current + 1, current + 2) == 'L') {
+         // spanish e.g. 'cabrillo', 'gallegos'
+         if (((current == (length - 3))
+             &amp;&amp; string_at(inputKey, current - 1, 4,
+                 ["ILLO","ILLA","ALLE"]))
+                 || ((string_at(inputKey, last-1, 2,
+                     ["AS","OS"])
+                     || string_at(inputKey, last, 1,
+                         ["A","O"]))
+                         &amp;&amp; string_at(inputKey, current - 1, 4,
+                             ["ALLE"]))) {
+           addPrimaryTranslation('L');
+           addSecondaryTranslation('');
+           current += 2;
+           break;
+         }
+         current += 2;
+       } else
+         current += 1;
+       addPrimaryTranslation("L");
+       addSecondaryTranslation('L');
+       break;
+
+     case 'M':
+       if ((string_at(inputKey, current - 1, 3,
+           ["UMB"])
+           &amp;&amp; (((current + 1) == last)
+               || string_at(inputKey, current + 2, 2,
+                   ["ER"])))
+                   // 'dumb', 'thumb'
+                   || (inputKey.substring(current + 1, current + 2) == 'M')) {
+         current += 2;
+       } else {
+         current += 1;
+       }
+       addPrimaryTranslation("M");
+       addSecondaryTranslation("M");
+       break;
+
+     case 'N':
+       if (inputKey.substring(current + 1, current + 2) == 'N')
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("N");
+       addSecondaryTranslation("N");
+       break;
+
+     case 'Ñ':
+       current += 1;
+       addPrimaryTranslation("N");
+       addSecondaryTranslation("N");
+       break;
+
+     case 'P':
+       if (inputKey.substring(current + 1, current + 2) == 'H') {
+         current += 2;
+         addPrimaryTranslation("F");
+         addSecondaryTranslation('F');
+         break;
+       }
+
+       // also account for "campbell" and "raspberry"
+       if (string_at(inputKey, current + 1, 1,
+           ["P","B"]))
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("P");
+       addSecondaryTranslation('P');
+       break;
+
+     case 'Q':
+       if (inputKey.substring(current + 1, current + 2) == 'Q')
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("K");
+       addSecondaryTranslation('K');
+       break;
+
+     case 'R':
+       // french e.g. 'rogier', but exclude 'hochmeier'
+       if ((current == last)
+           &amp;&amp; !Slavo_Germanic(inputKey)
+           &amp;&amp; string_at(inputKey, current - 2, 2,
+               ["IE"])
+               &amp;&amp; !string_at(inputKey, current - 4, 2,
+                   ["ME","MA"])) {
+         addPrimaryTranslation("");
+         addSecondaryTranslation('R');
+       } else {
+         addPrimaryTranslation("R");
+         addSecondaryTranslation('R');
+       }
+       if (inputKey.substring(current + 1, current + 2) == 'R')
+         current += 2;
+       else
+         current += 1;
+       break;
+
+     case 'S':
+       // special cases 'island', 'isle', 'carlisle', 'carlysle'
+       if (string_at(inputKey, current - 1, 3,
+           ["ISL","YSL"])) {
+         current += 1;
+         break;
+       }
+
+       // special case 'sugar-'
+       if ((current == 0)
+           &amp;&amp; string_at(inputKey, current, 5,
+               ["SUGAR"])) {
+         addPrimaryTranslation("X");
+         addSecondaryTranslation('S');
+         current += 1;
+         break;
+       }
+
+       if (string_at(inputKey, current, 2,
+           ["SH"])) {
+         // germanic
+         if (string_at(inputKey, current + 1, 4,
+             ["HEIM","HOEK","HOLM","HOLZ"])) {
+           addPrimaryTranslation("S");
+           addSecondaryTranslation('S');
+         } else {
+           addPrimaryTranslation("X");
+           addSecondaryTranslation('X');
+         }
+         current += 2;
+         break;
+       }
+
+       // italian &amp; armenian
+       if (string_at(inputKey, current, 3,
+           ["SIO","SIA"])
+           || string_at(inputKey, current, 4,
+               ["SIAN"])) {
+         if (!Slavo_Germanic(inputKey)) {
+           addPrimaryTranslation("S");
+           addSecondaryTranslation('X');
+         } else {
+           addPrimaryTranslation("S");
+           addSecondaryTranslation('S');
+         }
+         current += 3;
+         break;
+       }
+
+       // german &amp; anglicisations, e.g. 'smith' match 'schmidt', 'snider' match 'schneider'
+       // also, -sz- in slavic language altho in hungarian it is pronounced 's'
+       if (((current == 0)
+           &amp;&amp; string_at(inputKey, current + 1, 1,
+               ["M","N","L","W"]))
+               || string_at(inputKey, current + 1, 1,
+                   ["Z"])) {
+         addPrimaryTranslation("S");
+         addSecondaryTranslation('X');
+         if (string_at(inputKey, current + 1, 1,
+             ["Z"]))
+           current += 2;
+         else
+           current += 1;
+         break;
+       }
+
+       if (string_at(inputKey, current, 2,
+           ["SC"])) {
+         // Schlesinger's rule
+         if (inputKey.substring(current + 2, current + 3) == 'H')
+           // dutch origin, e.g. 'school', 'schooner'
+           if (string_at(inputKey, current + 3, 2,
+               ["OO","ER","EN","UY","ED","EM"])) {
+             // 'schermerhorn', 'schenker'
+             if (string_at(inputKey, current + 3, 2,
+                 ["ER","EN"])) {
+               addPrimaryTranslation("X");
+               addSecondaryTranslation("SK");
+             } else {
+               addPrimaryTranslation("SK");
+               addSecondaryTranslation("SK");
+             }
+             current += 3;
+             break;
+           } else {
+             if ((current == 0)
+                 &amp;&amp; !isVowel(inputKey, 3)
+                 &amp;&amp; (inputKey.substring(current + 1, current + 4) != 'W')) {
+               addPrimaryTranslation("X");
+               addSecondaryTranslation('S');
+             } else {
+               addPrimaryTranslation("X");
+               addSecondaryTranslation('X');
+             }
+             current += 3;
+             break;
+           }
+
+         if (string_at(inputKey, current + 2, 1,
+             ["I","E","Y"])) {
+           addPrimaryTranslation("S");
+           addSecondaryTranslation('S');
+           current += 3;
+           break;
+         }
+
+         // else
+         addPrimaryTranslation("SK");
+         addSecondaryTranslation('SK');
+         current += 3;
+         break;
+       }
+
+       // french e.g. 'resnais', 'artois'
+       if ((current == last)
+           &amp;&amp; string_at(inputKey, current - 2, 2,
+               ["AI","OI"])) {
+         addPrimaryTranslation("");
+         addSecondaryTranslation('S');
+       } else {
+         addPrimaryTranslation("S");
+         addSecondaryTranslation('S');
+       }
+
+       if (string_at(inputKey, current + 1, 1,
+           ["S","Z"]))
+         current += 2;
+       else
+         current += 1;
+       break;
+
+     case 'T':
+       if (string_at(inputKey, current, 4,
+           ["TION"])) {
+         addPrimaryTranslation("X");
+         addSecondaryTranslation('X');
+         current += 3;
+         break;
+       }
+
+       if (string_at(inputKey, current, 3,
+           ["TIA","TCH"])) {
+         addPrimaryTranslation("X");
+         addSecondaryTranslation('X');
+         current += 3;
+         break;
+       }
+
+       if (string_at(inputKey, current, 2,
+           ["TH"])
+           || string_at(inputKey, current, 3,
+               ["TTH"])) {
+         // special case 'thomas', 'thames' or germanic
+         if (string_at(inputKey, current + 2, 2,
+             ["OM","AM"])
+             || string_at(inputKey, 0, 4, ["VAN ","VON "])
+             || string_at(inputKey, 0, 3, ["SCH"])) {
+           addPrimaryTranslation("T");
+           addSecondaryTranslation('T');
+         } else {
+           addPrimaryTranslation("0");
+           addSecondaryTranslation('T');
+         }
+         current += 2;
+         break;
+       }
+
+       if (string_at(inputKey, current + 1, 1,
+           ["T","D"]))
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("T");
+       addSecondaryTranslation('T');
+       break;
+
+     case 'V':
+       if (inputKey.substring(current + 1, current + 2) == 'V')
+         current += 2;
+       else
+         current += 1;
+       addPrimaryTranslation("F");
+       addSecondaryTranslation('F');
+       break;
+
+     case 'W':
+       // can also be in middle of word
+       if (string_at(inputKey, current, 2, ["WR"])) {
+         addPrimaryTranslation("R");
+         addSecondaryTranslation('R');
+         current += 2;
+         break;
+       }
+
+       if ((current == 0)
+           &amp;&amp; (isVowel(inputKey, current + 1)
+               || string_at(inputKey, current, 2,
+                   ["WH"]))) {
+         // Wasserman should match Vasserman
+         if (isVowel(inputKey, current + 1)) {
+           addPrimaryTranslation("A");
+           addSecondaryTranslation('F');
+         } else {
+           // need Uomo to match Womo
+           addPrimaryTranslation("A");
+           addSecondaryTranslation('A');
+         }
+       }
+
+       // Arnow should match Arnoff
+       if(current &gt; 0) {
+         if (((current == last)
+             &amp;&amp; isVowel(inputKey, current - 1))
+             || string_at(inputKey, current - 1, 5,
+                 ["EWSKI","EWSKY","OWSKI","OWSKY"])
+                 || string_at(inputKey, 0, 3, ["SCH"])) {
+           addPrimaryTranslation("");
+           addSecondaryTranslation('F');
+           current += 1;
+           break;
+         }
+       }
+
+       // polish e.g. 'filipowicz'
+       if (string_at(inputKey, current, 4,
+           ["WICZ","WITZ"])) {
+         addPrimaryTranslation("TS");
+         addSecondaryTranslation('FX');
+         current += 4;
+         break;
+       }
+
+       // else skip it
+       current += 1;
+       break;
+
+     case 'X':
+       // french e.g. breaux
+       if (current == 0 ) {
+         addPrimaryTranslation('S');
+         addSecondaryTranslation('S');
+         current++;
+       } else {
+       if (!((current == last)
+           &amp;&amp; (string_at(inputKey, current - 3, 3,
+               ["IAU", "EAU"])
+               || string_at(inputKey, current - 2, 2,
+                   ["AU", "OU"])))) {
+         addPrimaryTranslation("KS");
+         addSecondaryTranslation('KS');
+       }
+
+       if (string_at(inputKey, current + 1, 1,
+           ["C","X"]))
+         current += 2;
+       else
+         current += 1;
+       }
+       break;
+
+     case 'Z':
+       // chinese pinyin e.g. 'zhao'
+       if (inputKey.substring(current + 1, current + 2) == "H") {
+         addPrimaryTranslation("J");
+         addSecondaryTranslation('J');
+         current += 2;
+         break;
+       } else if (string_at(inputKey, current + 1, 2,
+           ["ZO", "ZI", "ZA"])
+           || (Slavo_Germanic(inputKey)
+               &amp;&amp; ((current &gt; 0)
+                   &amp;&amp; inputKey.substring(current - 1, current) != 'T'))) {
+         addPrimaryTranslation("S");
+         addSecondaryTranslation("TS");
+       } else {
+         addPrimaryTranslation("S");
+         addSecondaryTranslation('S');
+       }
+
+       if (inputKey.substring(current + 1, current + 2) == 'Z')
+         current += 2;
+       else
+         current += 1;
+       break;
+
+
+     default:
+       current++;
+   }
+ }
+
+ return [primary, secondary];
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="asSoundexPhonetic">
+<button class="show-code">Code</button>
+String <strong>asSoundexPhonetic</strong>(String aString) <a class="anchor-link" href="#asSoundexPhonetic"
+              title="Permalink to asSoundexPhonetic">#</a></h4>
+<div class="doc">
+<p>Calculates the "Soundex" code for the given string.
+It's the phonetic code for the  English language.</p>
+<pre><code>main() {
+  print(asSoundexPhonetic('Dart'));
+}
+</code></pre>
+<pre class="source">
+String asSoundexPhonetic(String aString) {
+ if (aString == null || aString.isEmpty) return '';
+ var u = aString.toUpperCase();
+ var p = u[0];
+ var prevCode = _translationDict[u[0]];
+ var t;
+ List phoneticCodeList = new List.filled(4, 0);
+ for (var i = 1; i &lt; u.length; i++) {
+   t = _translationDict[u[i]];
+   if ((t != null) &amp;&amp; ((t != '0') &amp;&amp; (t != prevCode))) {
+     p = p + t;
+   }
+   prevCode = t;
+ }
+ while (p.length &lt; 4) {
+   p = p + '0';
+ }
+ return p.substring(0,4);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="asColognePhonetic">
+<button class="show-code">Code</button>
+String <strong>asColognePhonetic</strong>(String aString) <a class="anchor-link" href="#asColognePhonetic"
+              title="Permalink to asColognePhonetic">#</a></h4>
+<div class="doc">
+<p>Calculates the "Cologne Phonetic" (Kölner Phonetik) code for the given string.
+It's the phonetic code for the  German language.</p>
+<pre><code>main() {
+  print(asColognePhonetic('Dart'));
+}
+</code></pre>
+<pre class="source">
+String asColognePhonetic(String aString) {
+ if (aString == null || aString.isEmpty) return '';
+ var phoneticString = '';
+ var trimmedPhoneticString = '';
+ var code;
+ var space = ' ';
+ var previousCode  = space;
+
+ for (var i = 0; i &lt; aString.length; i++) {
+   var each;
+   var prevoius;
+   var follower;
+   each = aString[i].toLowerCase();
+
+   // evtl i 1 höher da 0 indexed
+   // (i &gt; 1)
+   if (i &gt; 0) {
+     // [i - 1]
+     prevoius = aString[i - 1].toLowerCase();
+   }
+   // (i &lt; aString.length)
+   if (i &lt; (aString.length - 1)) {
+     follower = aString[i + 1].toLowerCase();
+   }
+   if (_colognePhoneticTable.containsKey(each)) {
+     code = _colognePhoneticTable[each];
+   } else {
+     if (each == 'h') {
+       code = space;
+     }
+     if (each == 'p') {
+       if (follower == 'h') {
+         code = '3';
+       } else {
+         code = '1';
+       }
+     }
+     if (each == 'd') {
+       if ((follower == 'c') || (follower == 's') || (follower == 'z') || (follower == 'ß')) {
+         code = '8';
+       } else {
+         code = '2';
+       }
+     }
+     if (each == 't') {
+       if ((follower == 'c') || (follower == 's') || (follower == 'z') || (follower == 'ß')) {
+         code = '8';
+       } else {
+         code = '2';
+       }
+     }
+     if (each == 'c') {
+       if ( i == 1) {
+         if ((follower == 'a') || (follower == 'h') || (follower == 'k') || (follower == 'l')
+             || (follower == 'o')  || (follower == 'q')   || (follower == 'r')  || (follower == 'u') || (follower == 'x')) {
+           code = '4';
+         } else {
+           code = '8';
+         }
+       } else {
+         if ((prevoius == 's') || (prevoius == 'z') || (prevoius == 'ß')) {
+           if ((follower == 'a') || (follower == 'h') || (follower == 'k')
+               || (follower == 'o')  || (follower == 'q') || (follower == 'u') || (follower == 'x')) {
+             code = '8';
+           } else {
+             code = '4';
+           }
+         } else {
+           code = '4';
+         }
+       }
+     }
+     if (each == 'x') {
+       if ((prevoius == 'c') || (prevoius == 'k') || (prevoius == 'q')) {
+         code = '8';
+       } else {
+         code = '48';
+       }
+     }
+
+   }
+   if (previousCode != code) {
+     phoneticString = phoneticString + code;
+   }
+   previousCode = code;
+ }
+ for (var i = 0; i &lt; phoneticString.length; i++) {
+   var each = phoneticString[i];
+   if (!((each == space) || (each == '0'))) {
+     // "Umlaute ?"
+     trimmedPhoneticString = trimmedPhoneticString + each;
+   }
+ }
+ return trimmedPhoneticString;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="phonetic">
+<button class="show-code">Code</button>
+String <strong>phonetic</strong>(String aString, String aLocale, {String mode}) <a class="anchor-link" href="#phonetic"
+              title="Permalink to phonetic">#</a></h4>
+<div class="doc">
+<pre><code>main() {
+  print(asColognePhonetic('Dart'));
+  print(asSoundexPhonetic('Dart'));
+  print(asDoubleMetaphonePhonetic('Dart'));
+}
+
+main() {
+  print(phonetic('Dart', 'en'));
+  print(phonetic('Dart', 'de'));
+  print(phonetic('Dart', 'en', mode:'soundex'));
+  print(phonetic('Dart', 'en', mode:'doublemetaphone'));
+}
+</code></pre>
+<pre class="source">
+String phonetic(String aString, String aLocale, {String  mode}) {
+ if (aString == null || aString.isEmpty) return '';
+ var phonetic = '';
+ var lang = Intl.shortLocale(aLocale);
+
+ switch (lang) {
+   case 'en':
+     if (mode == 'soundex') {
+       phonetic = asSoundexPhonetic(aString);
+     } else if (mode == 'doublemetaphone') {
+       phonetic = asDoubleMetaphonePhonetic(aString);
+     } else {
+       phonetic = asDoubleMetaphonePhonetic(aString);
+     }
+     break;
+   case 'de':
+     phonetic = asColognePhonetic(aString);
+     break;
+   default:
+     if (mode == 'soundex') {
+       phonetic = asSoundexPhonetic(aString);
+     } else if (mode == 'doublemetaphone') {
+       phonetic = asDoubleMetaphonePhonetic(aString);
+     } else {
+       phonetic = asDoubleMetaphonePhonetic(aString);
+     }
+ }
+
+ return phonetic;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <script async src="client-live-nav.js"></script>
+        </body></html>
+        

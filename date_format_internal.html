@@ -1,0 +1,137 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>date_format_internal Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        </head>
+        <body data-library="date_format_internal">
+        <div class="page">
+        <div class="header">
+          <a href="index.html"><div class="logo"></div></a>
+          <a href="index.html">Dart Documentation</a>
+         &rsaquo; <a href="date_format_internal.html">date_format_internal</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+<h2><strong>date_format_internal</strong> library</h2>
+<div class="doc"><p>This contains internal implementation details of the date formatting code
+which are exposed as public functions because they must be called by other
+libraries in order to configure the source for the locale data. We don't want
+them exposed as public API functions in the date formatting library, so they
+are put in a separate library here. These are for internal use only. User
+code should import one of the <code>date_symbol_data...</code> libraries and call the
+<code>initializeDateFormatting</code> method exposed there.</p></div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="dateTimePatterns">
+<button class="show-code">Code</button>
+var         <strong>dateTimePatterns</strong> <a class="anchor-link"
+            href="#dateTimePatterns"
+            title="Permalink to dateTimePatterns">#</a>
+        </h4>
+        <div class="doc">
+<p>This holds the patterns used for date/time formatting, indexed
+by locale. Note that it will be set differently during initialization,
+depending on what implementation we are using. By default, it is initialized
+to an instance of UninitializedLocaleData, so any attempt to use it will
+result in an informative error message.</p>
+<pre class="source">
+var dateTimePatterns =
+   new UninitializedLocaleData('initializeDateFormatting(&lt;locale&gt;)',
+       en_USPatterns)
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="dateTimeSymbols">
+<button class="show-code">Code</button>
+var         <strong>dateTimeSymbols</strong> <a class="anchor-link"
+            href="#dateTimeSymbols"
+            title="Permalink to dateTimeSymbols">#</a>
+        </h4>
+        <div class="doc">
+<p>This holds the symbols to be used for date/time formatting, indexed
+by locale. Note that it will be set differently during initialization,
+depending on what implementation we are using. By default, it is initialized
+to an instance of UninitializedLocaleData, so any attempt to use it will
+result in an informative error message.</p>
+<pre class="source">
+var dateTimeSymbols =
+   new UninitializedLocaleData('initializeDateFormatting(&lt;locale&gt;)',
+       en_USSymbols)
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Functions</h3>
+<div class="method"><h4 id="initializeIndividualLocaleDateFormatting">
+<button class="show-code">Code</button>
+Future <strong>initializeIndividualLocaleDateFormatting</strong>(Function init) <a class="anchor-link" href="#initializeIndividualLocaleDateFormatting"
+              title="Permalink to initializeIndividualLocaleDateFormatting">#</a></h4>
+<div class="doc">
+<pre class="source">
+Future initializeIndividualLocaleDateFormatting(Function init) {
+ return init(dateTimeSymbols, dateTimePatterns);
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="initializeDatePatterns">
+<button class="show-code">Code</button>
+void <strong>initializeDatePatterns</strong>(Function patterns) <a class="anchor-link" href="#initializeDatePatterns"
+              title="Permalink to initializeDatePatterns">#</a></h4>
+<div class="doc">
+<p>Initialize the patterns dictionary. This should be passed a function that
+creates and returns the pattern data. We take a function so that if
+initializing the data is an expensive operation it need only be done once,
+no matter how many times this method is called.</p>
+<pre class="source">
+void initializeDatePatterns(Function patterns) {
+ if (dateTimePatterns is UninitializedLocaleData) {
+   dateTimePatterns = patterns();
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="initializeDateSymbols">
+<button class="show-code">Code</button>
+void <strong>initializeDateSymbols</strong>(Function symbols) <a class="anchor-link" href="#initializeDateSymbols"
+              title="Permalink to initializeDateSymbols">#</a></h4>
+<div class="doc">
+<p>Initialize the symbols dictionary. This should be passed a function that
+creates and returns the symbol data. We take a function so that if
+initializing the data is an expensive operation it need only be done once,
+no matter how many times this method is called.</p>
+<pre class="source">
+void initializeDateSymbols(Function symbols) {
+ if (dateTimeSymbols is UninitializedLocaleData) {
+   dateTimeSymbols = symbols();
+ }
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <script async src="client-live-nav.js"></script>
+        </body></html>
+        

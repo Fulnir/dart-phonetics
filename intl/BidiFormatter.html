@@ -1,0 +1,391 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>BidiFormatter class / intl Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="intl" data-type="BidiFormatter">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../intl.html">intl</a> &rsaquo; <a href="../intl/BidiFormatter.html">BidiFormatter</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>BidiFormatter</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<p>Bidi stands for Bi-directional text.
+According to <a href="http://en.wikipedia.org/wiki/Bi-directional_text">Wikipedia</a>:
+Bi-directional text is text containing text in both text directionalities,
+both right-to-left (RTL) and left-to-right (LTR). It generally involves text
+containing different types of alphabets, but may also refer to boustrophedon,
+which is changing text directionality in each row.</p>
+<p>Utility class for formatting display text in a potentially
+opposite-directionality context without garbling layout issues.
+Mostly a very "slimmed-down" and dart-ified port of the Closure Birectional
+formatting libary. If there is a utility in the Closure library (or ICU, or
+elsewhere) that you would like this formatter to make available, please
+contact the Dart team.</p>
+<p>Provides the following functionality:</p><ol><li>
+<p><em>BiDi Wrapping</em>
+When text in one language is mixed into a document in another, opposite-
+directionality language, e.g. when an English business name is embedded in a
+Hebrew web page, both the inserted string and the text following it may be
+displayed incorrectly unless the inserted string is explicitly separated
+from the surrounding text in a "wrapper" that declares its directionality at
+the start and then resets it back at the end. This wrapping can be done in
+HTML mark-up (e.g. a 'span dir=rtl' tag) or - only in contexts where mark-up
+can not be used - in Unicode BiDi formatting codes (LRE|RLE and PDF).
+Providing such wrapping services is the basic purpose of the BiDi formatter.</p></li><li>
+<p><em>Directionality estimation</em>
+How does one know whether a string about to be inserted into surrounding
+text has the same directionality? Well, in many cases, one knows that this
+must be the case when writing the code doing the insertion, e.g. when a
+localized message is inserted into a localized page. In such cases there is
+no need to involve the BiDi formatter at all. In the remaining cases, e.g.
+when the string is user-entered or comes from a database, the language of
+the string (and thus its directionality) is not known a priori, and must be
+estimated at run-time. The BiDi formatter does this automatically.</p></li><li>
+<p><em>Escaping</em>
+When wrapping plain text - i.e. text that is not already HTML or HTML-
+escaped - in HTML mark-up, the text must first be HTML-escaped to prevent XSS
+attacks and other nasty business. This of course is always true, but the
+escaping cannot be done after the string has already been wrapped in
+mark-up, so the BiDi formatter also serves as a last chance and includes
+escaping services.</p></li></ol>
+<p>Thus, in a single call, the formatter will escape the input string as
+specified, determine its directionality, and wrap it as necessary. It is
+then up to the caller to insert the return value in the output.</p>
+<pre class="source">
+class BidiFormatter {
+
+ /** The direction of the surrounding text (the context). */
+ TextDirection contextDirection;
+
+ /**
+  * Indicates if we should always wrap the formatted text in a &amp;lt;span&amp;lt;,.
+  */
+ bool _alwaysSpan;
+
+ /**
+  * Create a formatting object with a direction. If [alwaysSpan] is true we
+  * should always use a `span` tag, even when the input directionality is
+  * neutral or matches the context, so that the DOM structure of the output
+  * does not depend on the combination of directionalities.
+  */
+ BidiFormatter.LTR([alwaysSpan=false]) : contextDirection = TextDirection.LTR,
+     _alwaysSpan = alwaysSpan;
+ BidiFormatter.RTL([alwaysSpan=false]) : contextDirection = TextDirection.RTL,
+     _alwaysSpan = alwaysSpan;
+ BidiFormatter.UNKNOWN([alwaysSpan=false]) :
+     contextDirection = TextDirection.UNKNOWN, _alwaysSpan = alwaysSpan;
+
+ /** Is true if the known context direction for this formatter is RTL. */
+ bool get isRTL =&gt; contextDirection == TextDirection.RTL;
+
+ /**
+  * Formats a string of a given (or estimated, if not provided)
+  * [direction] for use in HTML output of the context directionality, so
+  * an opposite-directionality string is neither garbled nor garbles what
+  * follows it.
+  * If the input string's directionality doesn't match the context
+  * directionality, we wrap it with a `span` tag and add a `dir` attribute
+  * (either "dir=rtl" or "dir=ltr").
+  * If alwaysSpan was true when constructing the formatter, the input is always
+  * wrapped with `span` tag, skipping the dir attribute when it's not needed.
+  *
+  * If [resetDir] is true and the overall directionality or the exit
+  * directionality of [text] is opposite to the context directionality,
+  * a trailing unicode BiDi mark matching the context directionality is
+  * appended (LRM or RLM). If [isHtml] is false, we HTML-escape the [text].
+  */
+ String wrapWithSpan(String text, {bool isHtml: false, bool resetDir: true,
+                     TextDirection direction}) {
+   if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
+   var result;
+   if (!isHtml) text = HTML_ESCAPE.convert(text);
+   var directionChange = contextDirection.isDirectionChange(direction);
+   if (_alwaysSpan || directionChange) {
+     var spanDirection = '';
+     if (directionChange) {
+       spanDirection = ' dir=${direction.spanText}';
+     }
+     result= '&lt;span$spanDirection&gt;$text&lt;/span&gt;';
+   } else {
+     result = text;
+   }
+   return result + (resetDir? _resetDir(text, direction, isHtml) : '');
+ }
+
+ /**
+  * Format [text] of a known (if specified) or estimated [direction] for use
+  * in *plain-text* output of the context directionality, so an
+  * opposite-directionality text is neither garbled nor garbles what follows
+  * it. Unlike wrapWithSpan, this makes use of unicode BiDi formatting
+  * characters instead of spans for wrapping. The returned string would be
+  * RLE+text+PDF for RTL text, or LRE+text+PDF for LTR text.
+  *
+  * If [resetDir] is true, and if the overall directionality or the exit
+  * directionality of text are opposite to the context directionality,
+  * a trailing unicode BiDi mark matching the context directionality is
+  * appended (LRM or RLM).
+  *
+  * In HTML, the *only* valid use of this function is inside of elements that
+  * do not allow markup, e.g. an 'option' tag.
+  * This function does *not* do HTML-escaping regardless of the value of
+  * [isHtml]. [isHtml] is used to designate if the text contains HTML (escaped
+  * or unescaped).
+  */
+ String wrapWithUnicode(String text, {bool isHtml: false, bool resetDir: true,
+                        TextDirection direction}) {
+   if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
+   var result = text;
+   if (contextDirection.isDirectionChange(direction)) {
+     var marker = direction == TextDirection.RTL ? Bidi.RLE : Bidi.LRE;
+     result = "${marker}$text${Bidi.PDF}";
+
+   }
+   return result + (resetDir? _resetDir(text, direction, isHtml) : '');
+ }
+
+ /**
+  * Estimates the directionality of [text] using the best known
+  * general-purpose method (using relative word counts). A
+  * TextDirection.UNKNOWN return value indicates completely neutral input.
+  * [isHtml] is true if [text] HTML or HTML-escaped.
+  */
+ TextDirection estimateDirection(String text, {bool isHtml: false}) {
+   return Bidi.estimateDirectionOfText(text, isHtml: isHtml); //TODO~!!!
+ }
+
+ /**
+  * Returns a unicode BiDi mark matching the surrounding context's [direction]
+  * (not necessarily the direction of [text]). The function returns an LRM or
+  * RLM if the overall directionality or the exit directionality of [text] is
+  * opposite the context directionality. Otherwise
+  * return the empty string. [isHtml] is true if [text] is HTML or
+  * HTML-escaped.
+  */
+ String _resetDir(String text, TextDirection direction, bool isHtml) {
+   // endsWithRtl and endsWithLtr are called only if needed (short-circuit).
+   if ((contextDirection == TextDirection.LTR &amp;&amp;
+         (direction == TextDirection.RTL ||
+          Bidi.endsWithRtl(text, isHtml))) ||
+       (contextDirection == TextDirection.RTL &amp;&amp;
+         (direction == TextDirection.LTR ||
+          Bidi.endsWithLtr(text, isHtml)))) {
+     if (contextDirection == TextDirection.LTR) {
+       return Bidi.LRM;
+     } else {
+       return Bidi.RLM;
+     }
+   } else {
+     return '';
+   }
+ }
+}
+</pre>
+</div>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="LTR">
+<button class="show-code">Code</button>
+new <strong>BidiFormatter.LTR</strong>([alwaysSpan = false]) <a class="anchor-link" href="#LTR"
+              title="Permalink to BidiFormatter.BidiFormatter.LTR">#</a></h4>
+<div class="doc">
+<p>Create a formatting object with a direction. If 
+<span class="param">alwaysSpan</span> is true we
+should always use a <code>span</code> tag, even when the input directionality is
+neutral or matches the context, so that the DOM structure of the output
+does not depend on the combination of directionalities.</p>
+<pre class="source">
+BidiFormatter.LTR([alwaysSpan=false]) : contextDirection = TextDirection.LTR,
+   _alwaysSpan = alwaysSpan;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="RTL">
+<button class="show-code">Code</button>
+new <strong>BidiFormatter.RTL</strong>([alwaysSpan = false]) <a class="anchor-link" href="#RTL"
+              title="Permalink to BidiFormatter.BidiFormatter.RTL">#</a></h4>
+<div class="doc">
+<pre class="source">
+BidiFormatter.RTL([alwaysSpan=false]) : contextDirection = TextDirection.RTL,
+   _alwaysSpan = alwaysSpan;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="UNKNOWN">
+<button class="show-code">Code</button>
+new <strong>BidiFormatter.UNKNOWN</strong>([alwaysSpan = false]) <a class="anchor-link" href="#UNKNOWN"
+              title="Permalink to BidiFormatter.BidiFormatter.UNKNOWN">#</a></h4>
+<div class="doc">
+<pre class="source">
+BidiFormatter.UNKNOWN([alwaysSpan=false]) :
+   contextDirection = TextDirection.UNKNOWN, _alwaysSpan = alwaysSpan;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field"><h4 id="contextDirection">
+<button class="show-code">Code</button>
+<a href="../intl/TextDirection.html">TextDirection</a>         <strong>contextDirection</strong> <a class="anchor-link"
+            href="#contextDirection"
+            title="Permalink to BidiFormatter.contextDirection">#</a>
+        </h4>
+        <div class="doc">
+<p>The direction of the surrounding text (the context). </p>
+<pre class="source">
+TextDirection contextDirection
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="isRTL">
+<button class="show-code">Code</button>
+final bool         <strong>isRTL</strong> <a class="anchor-link"
+            href="#isRTL"
+            title="Permalink to BidiFormatter.isRTL">#</a>
+        </h4>
+        <div class="doc">
+<p>Is true if the known context direction for this formatter is RTL. </p>
+<pre class="source">
+bool get isRTL =&gt; contextDirection == TextDirection.RTL;
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method"><h4 id="estimateDirection">
+<button class="show-code">Code</button>
+<a href="../intl/TextDirection.html">TextDirection</a> <strong>estimateDirection</strong>(String text, {bool isHtml: false}) <a class="anchor-link" href="#estimateDirection"
+              title="Permalink to BidiFormatter.estimateDirection">#</a></h4>
+<div class="doc">
+<p>Estimates the directionality of 
+<span class="param">text</span> using the best known
+general-purpose method (using relative word counts). A
+TextDirection.UNKNOWN return value indicates completely neutral input.
+
+<span class="param">isHtml</span> is true if 
+<span class="param">text</span> HTML or HTML-escaped.</p>
+<pre class="source">
+TextDirection estimateDirection(String text, {bool isHtml: false}) {
+ return Bidi.estimateDirectionOfText(text, isHtml: isHtml); //TODO~!!!
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="wrapWithSpan">
+<button class="show-code">Code</button>
+String <strong>wrapWithSpan</strong>(String text, {bool isHtml: false, bool resetDir: true, <a href="../intl/TextDirection.html">TextDirection</a> direction}) <a class="anchor-link" href="#wrapWithSpan"
+              title="Permalink to BidiFormatter.wrapWithSpan">#</a></h4>
+<div class="doc">
+<p>Formats a string of a given (or estimated, if not provided)
+
+<span class="param">direction</span> for use in HTML output of the context directionality, so
+an opposite-directionality string is neither garbled nor garbles what
+follows it.
+If the input string's directionality doesn't match the context
+directionality, we wrap it with a <code>span</code> tag and add a <code>dir</code> attribute
+(either "dir=rtl" or "dir=ltr").
+If alwaysSpan was true when constructing the formatter, the input is always
+wrapped with <code>span</code> tag, skipping the dir attribute when it's not needed.</p>
+<p>If 
+<span class="param">resetDir</span> is true and the overall directionality or the exit
+directionality of 
+<span class="param">text</span> is opposite to the context directionality,
+a trailing unicode BiDi mark matching the context directionality is
+appended (LRM or RLM). If 
+<span class="param">isHtml</span> is false, we HTML-escape the 
+<span class="param">text</span>.</p>
+<pre class="source">
+String wrapWithSpan(String text, {bool isHtml: false, bool resetDir: true,
+                   TextDirection direction}) {
+ if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
+ var result;
+ if (!isHtml) text = HTML_ESCAPE.convert(text);
+ var directionChange = contextDirection.isDirectionChange(direction);
+ if (_alwaysSpan || directionChange) {
+   var spanDirection = '';
+   if (directionChange) {
+     spanDirection = ' dir=${direction.spanText}';
+   }
+   result= '&lt;span$spanDirection&gt;$text&lt;/span&gt;';
+ } else {
+   result = text;
+ }
+ return result + (resetDir? _resetDir(text, direction, isHtml) : '');
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="wrapWithUnicode">
+<button class="show-code">Code</button>
+String <strong>wrapWithUnicode</strong>(String text, {bool isHtml: false, bool resetDir: true, <a href="../intl/TextDirection.html">TextDirection</a> direction}) <a class="anchor-link" href="#wrapWithUnicode"
+              title="Permalink to BidiFormatter.wrapWithUnicode">#</a></h4>
+<div class="doc">
+<p>Format 
+<span class="param">text</span> of a known (if specified) or estimated 
+<span class="param">direction</span> for use
+in <em>plain-text</em> output of the context directionality, so an
+opposite-directionality text is neither garbled nor garbles what follows
+it. Unlike wrapWithSpan, this makes use of unicode BiDi formatting
+characters instead of spans for wrapping. The returned string would be
+RLE+text+PDF for RTL text, or LRE+text+PDF for LTR text.</p>
+<p>If 
+<span class="param">resetDir</span> is true, and if the overall directionality or the exit
+directionality of text are opposite to the context directionality,
+a trailing unicode BiDi mark matching the context directionality is
+appended (LRM or RLM).</p>
+<p>In HTML, the <em>only</em> valid use of this function is inside of elements that
+do not allow markup, e.g. an 'option' tag.
+This function does <em>not</em> do HTML-escaping regardless of the value of
+
+<span class="param">isHtml</span>. 
+<span class="param">isHtml</span> is used to designate if the text contains HTML (escaped
+or unescaped).</p>
+<pre class="source">
+String wrapWithUnicode(String text, {bool isHtml: false, bool resetDir: true,
+                      TextDirection direction}) {
+ if (direction == null) direction = estimateDirection(text, isHtml: isHtml);
+ var result = text;
+ if (contextDirection.isDirectionChange(direction)) {
+   var marker = direction == TextDirection.RTL ? Bidi.RLE : Bidi.LRE;
+   result = "${marker}$text${Bidi.PDF}";
+
+ }
+ return result + (resetDir? _resetDir(text, direction, isHtml) : '');
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        
