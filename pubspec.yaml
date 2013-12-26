@@ -1,12 +1,15 @@
 name: phonetics
-version: 1.5.0
+version: 1.5.1
 author: Edwin Bühler <fulnir@gmail.com>
 description: Soundex, Double Metaphone and Kölner Phonetik
 homepage: https://github.com/Fulnir/dart-phonetics
+documentation: http://fulnir.github.io/dart-phonetics
 environment:
-  sdk: '>=0.8.10+6 <2.0.0'
+  sdk: '>=1.0.0 <2.0.0'
 dependencies:
   intl: any
   junitconfiguration: any
   logging: any
+dev_dependencies:
+  hop: any
   unittest: any
