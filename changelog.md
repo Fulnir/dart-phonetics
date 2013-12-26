@@ -4,4 +4,4 @@
 
 * Add this changelog.md file.
 * Add hop runner file.
-* Add gh-pages.
+* Add gh-pages http://fulnir.github.io/dart-phonetics.
