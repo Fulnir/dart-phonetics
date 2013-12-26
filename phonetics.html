@@ -45,7 +45,7 @@ final isVowel = (String aString, int pos) =&gt; vowels.contains(aString.substrin
 </div>
 <div class="field"><h4 id="log">
 <button class="show-code">Code</button>
-final <a href="logging/Logger.html">Logger</a>         <strong>log</strong> <a class="anchor-link"
+final Logger         <strong>log</strong> <a class="anchor-link"
             href="#log"
             title="Permalink to log">#</a>
         </h4>
@@ -57,7 +57,7 @@ final Logger log =  new Logger('SoundexLogger')..level = Level.FINER
 </div>
 <div class="field"><h4 id="logTest">
 <button class="show-code">Code</button>
-final <a href="logging/Logger.html">Logger</a>         <strong>logTest</strong> <a class="anchor-link"
+final Logger         <strong>logTest</strong> <a class="anchor-link"
             href="#logTest"
             title="Permalink to logTest">#</a>
         </h4>
@@ -107,7 +107,7 @@ final  string_at = (string, start, length, list) {
 </div>
 <div class="field"><h4 id="vowels">
 <button class="show-code">Code</button>
-const List&lt;String&gt;         <strong>vowels</strong> <a class="anchor-link"
+const <a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href="http://api.dartlang.org/dart_core/String.html">String</a>&gt;         <strong>vowels</strong> <a class="anchor-link"
             href="#vowels"
             title="Permalink to vowels">#</a>
         </h4>
@@ -122,7 +122,7 @@ const List&lt;String&gt; vowels = const ['A', 'E', 'I', 'O', 'U']
 <h3>Functions</h3>
 <div class="method"><h4 id="asDoubleMetaphonePhonetic">
 <button class="show-code">Code</button>
-String <strong>asDoubleMetaphonePhonetic</strong>(String aString) <a class="anchor-link" href="#asDoubleMetaphonePhonetic"
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>asDoubleMetaphonePhonetic</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> aString) <a class="anchor-link" href="#asDoubleMetaphonePhonetic"
               title="Permalink to asDoubleMetaphonePhonetic">#</a></h4>
 <div class="doc">
 <p>Returns the "Double Metaphone" elements primary and secondary as String
@@ -146,7 +146,7 @@ String asDoubleMetaphonePhonetic(String aString) {
 </div>
 <div class="method"><h4 id="doubleMetaphoneMinimalCompare">
 <button class="show-code">Code</button>
-bool <strong>doubleMetaphoneMinimalCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneMinimalCompare"
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>doubleMetaphoneMinimalCompare</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> a, <a href="http://api.dartlang.org/dart_core/String.html">String</a> b) <a class="anchor-link" href="#doubleMetaphoneMinimalCompare"
               title="Permalink to doubleMetaphoneMinimalCompare">#</a></h4>
 <div class="doc">
 <p>Minimal Match
@@ -171,7 +171,7 @@ bool doubleMetaphoneMinimalCompare(String a, String b) {
 </div>
 <div class="method"><h4 id="doubleMetaphoneNormalCompare">
 <button class="show-code">Code</button>
-bool <strong>doubleMetaphoneNormalCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneNormalCompare"
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>doubleMetaphoneNormalCompare</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> a, <a href="http://api.dartlang.org/dart_core/String.html">String</a> b) <a class="anchor-link" href="#doubleMetaphoneNormalCompare"
               title="Permalink to doubleMetaphoneNormalCompare">#</a></h4>
 <div class="doc">
 <p>Normal Match
@@ -195,7 +195,7 @@ bool doubleMetaphoneNormalCompare(String a, String b) {
 </div>
 <div class="method"><h4 id="doubleMetaphoneStrongCompare">
 <button class="show-code">Code</button>
-bool <strong>doubleMetaphoneStrongCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneStrongCompare"
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>doubleMetaphoneStrongCompare</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> a, <a href="http://api.dartlang.org/dart_core/String.html">String</a> b) <a class="anchor-link" href="#doubleMetaphoneStrongCompare"
               title="Permalink to doubleMetaphoneStrongCompare">#</a></h4>
 <div class="doc">
 <p>Strongest Match
@@ -214,7 +214,7 @@ bool doubleMetaphoneStrongCompare(String a, String b) {
 </div>
 <div class="method"><h4 id="doubleMetaphoneFuzzyCompare">
 <button class="show-code">Code</button>
-bool <strong>doubleMetaphoneFuzzyCompare</strong>(String a, String b) <a class="anchor-link" href="#doubleMetaphoneFuzzyCompare"
+<a href="http://api.dartlang.org/dart_core/bool.html">bool</a> <strong>doubleMetaphoneFuzzyCompare</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> a, <a href="http://api.dartlang.org/dart_core/String.html">String</a> b) <a class="anchor-link" href="#doubleMetaphoneFuzzyCompare"
               title="Permalink to doubleMetaphoneFuzzyCompare">#</a></h4>
 <div class="doc">
 <p>Returns the first element (primary) from asDoubleMetaphonePhoneticList
@@ -242,7 +242,7 @@ bool doubleMetaphoneFuzzyCompare(String a, String b) {
 </div>
 <div class="method"><h4 id="asDoubleMetaphonePhoneticList">
 <button class="show-code">Code</button>
-List&lt;String&gt; <strong>asDoubleMetaphonePhoneticList</strong>(String aString) <a class="anchor-link" href="#asDoubleMetaphonePhoneticList"
+<a href="http://api.dartlang.org/dart_core/List.html">List</a>&lt;<a href="http://api.dartlang.org/dart_core/String.html">String</a>&gt; <strong>asDoubleMetaphonePhoneticList</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> aString) <a class="anchor-link" href="#asDoubleMetaphonePhoneticList"
               title="Permalink to asDoubleMetaphonePhoneticList">#</a></h4>
 <div class="doc">
 <p>Calculates the "Double Metaphone" code for the given string.
@@ -1158,7 +1158,7 @@ List&lt;String&gt; asDoubleMetaphonePhoneticList(String aString) {
 </div>
 <div class="method"><h4 id="asSoundexPhonetic">
 <button class="show-code">Code</button>
-String <strong>asSoundexPhonetic</strong>(String aString) <a class="anchor-link" href="#asSoundexPhonetic"
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>asSoundexPhonetic</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> aString) <a class="anchor-link" href="#asSoundexPhonetic"
               title="Permalink to asSoundexPhonetic">#</a></h4>
 <div class="doc">
 <p>Calculates the "Soundex" code for the given string.
@@ -1192,7 +1192,7 @@ String asSoundexPhonetic(String aString) {
 </div>
 <div class="method"><h4 id="asColognePhonetic">
 <button class="show-code">Code</button>
-String <strong>asColognePhonetic</strong>(String aString) <a class="anchor-link" href="#asColognePhonetic"
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>asColognePhonetic</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> aString) <a class="anchor-link" href="#asColognePhonetic"
               title="Permalink to asColognePhonetic">#</a></h4>
 <div class="doc">
 <p>Calculates the "Cologne Phonetic" (Kölner Phonetik) code for the given string.
@@ -1302,7 +1302,7 @@ String asColognePhonetic(String aString) {
 </div>
 <div class="method"><h4 id="phonetic">
 <button class="show-code">Code</button>
-String <strong>phonetic</strong>(String aString, String aLocale, {String mode}) <a class="anchor-link" href="#phonetic"
+<a href="http://api.dartlang.org/dart_core/String.html">String</a> <strong>phonetic</strong>(<a href="http://api.dartlang.org/dart_core/String.html">String</a> aString, <a href="http://api.dartlang.org/dart_core/String.html">String</a> aLocale, {<a href="http://api.dartlang.org/dart_core/String.html">String</a> mode}) <a class="anchor-link" href="#phonetic"
               title="Permalink to phonetic">#</a></h4>
 <div class="doc">
 <pre><code>main() {
