@@ -1,10 +1,8 @@
+![Phonetics!](https://raw.github.com/Fulnir/dart-phonetics/master/Icon.png)
 Dart Phonetics
 ---
 
-Copyright (C) 2013 Edwin Bühler. All Rights Reserved.
-
-Author: Edwin Bühler <fulnir@gmail.com>
-
+[![Build Status](https://drone.io/github.com/Fulnir/dart-phonetics/status.png)](https://drone.io/github.com/Fulnir/dart-phonetics/latest)
 
 Calculates the phonetic code for the given string.
 
